@@ -1,16 +1,20 @@
 #!/usr/bin/env node
 
-const pkg = require('./package.json')
-const ora = require('ora')
-const log = require('debug')(pkg.name)
-const Chalk = require('chalk')
-const Inquirer = require('inquirer')
-const nyc = require('name-your-contributors/src/index')
-const getList = require('./contributions-list')
-const Config = require('./config')
-const fetch = require('node-fetch')
-const prettyMs = require('pretty-ms')
-const argv = require('yargs')
+import pkg from './package.json' assert { type: "json" };
+import ora from 'ora'
+import debug from 'debug'
+import Chalk from 'chalk'
+import Inquirer from 'inquirer'
+import nyc from 'name-your-contributors'
+import getList from './contributions-list.js'
+import Config from './config.json' assert { type: "json" };
+import prettyMs from 'pretty-ms'
+import yargs from 'yargs'
+import { hideBin } from 'yargs/helpers'
+
+const log = debug(pkg.name)
+
+const argv = yargs(hideBin(process.argv))
   .usage('Usage: $0')
   .usage('Usage: $0 --start [Date] --end [Date]')
   .option('start', {

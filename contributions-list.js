@@ -1,10 +1,10 @@
-const config = require('./config.json')
+import config from './config.json' assert { type: 'json' }
 
 const isBot = ({ name, login }) => {
   return config.bots.includes(name) || config.bots.includes(login)
 }
 
-module.exports = repoContributions => {
+export default (repoContributions) => {
   const people = {}
 
   Object.values(repoContributions).forEach(contributions => {
