@@ -41,6 +41,10 @@ const argv = yargs(hideBin(process.argv))
   .alias('h', 'help')
   .argv
 
+const releaseFilter = (release) => {
+  return release.tag_name.startsWith('ipfs@') && release.tag_name.endsWith('.0') && !release.tag_name.includes('-')
+}
+
 async function main ({ env }) {
   console.log(`${Chalk.cyan('⬢')} ${Chalk.bold(Chalk.whiteBright('Helia Contributors'))}`)
   const spinner = ora()
@@ -97,9 +101,7 @@ async function main ({ env }) {
       const releases = await result.json()
 
       lastRelease = releases
-        .filter(release => {
-          return release.tag_name.startsWith('ipfs@') && release.tag_name.endsWith('.0') && !release.tag_name.includes('-')
-        })
+        .filter(releaseFilter)
         .shift()
 
       if (lastRelease) {
