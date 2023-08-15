@@ -1,8 +1,8 @@
-# js-ipfs-contributors
+# Helia-contributors
 
 > Script to generate a list of the contributors to js-IPFS since the last release
 
-![Screenshot](https://raw.githubusercontent.com/ipfs-shipyard/js-ipfs-contributors/master/screenshot.png)
+![Screenshot](./screenshot.png)
 
 ## Install
 
@@ -10,18 +10,12 @@ Install dependences:
 
 * [Node.js](https://nodejs.org/en/)
 
-Then:
-
-```sh
-npm install -g js-ipfs-contributors
-```
-
-Or, install from source:
+Then install from source:
 
 ```sh
 # Clone the repo
-git clone https://github.com/ipfs-shipyard/js-ipfs-contributors.git
-cd js-ipfs-contributors
+git clone https://github.com/SgtPooki/helia-contributors.git
+cd helia-contributors
 
 # Install project dependencies
 npm install
@@ -30,12 +24,6 @@ npm install
 ## Usage
 
 Simply run the tool by typing the following at the command line:
-
-```sh
-js-ipfs-contributors
-```
-
-Or, if you've installed from source:
 
 ```sh
 npm start
@@ -49,7 +37,7 @@ Note: It may take a long time! Please be patient!
 
 ## License
 
-The js-ipfs Project is dual-licensed under Apache 2.0 and MIT terms:
+The Helia Project is dual-licensed under Apache 2.0 and MIT terms:
 
 - Apache License, Version 2.0, ([LICENSE-APACHE](https://github.com/ipfs/go-ipfs/blob/master/LICENSE-APACHE) or http://www.apache.org/licenses/LICENSE-2.0)
 - MIT license ([LICENSE-MIT](https://github.com/ipfs/go-ipfs/blob/master/LICENSE-MIT) or http://opensource.org/licenses/MIT)
