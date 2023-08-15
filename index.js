@@ -29,6 +29,7 @@ const argv = yargs(hideBin(process.argv))
   })
   .option('end', {
     description: 'Latest date to consider changes from',
+    required: true,
     coerce: (val) => {
       if (!val) {
         return undefined
@@ -40,10 +41,6 @@ const argv = yargs(hideBin(process.argv))
   .help('h')
   .alias('h', 'help')
   .argv
-
-const releaseFilter = (release) => {
-  return release.tag_name.startsWith('ipfs@') && release.tag_name.endsWith('.0') && !release.tag_name.includes('-')
-}
 
 async function main ({ env }) {
   console.log(`${Chalk.cyan('⬢')} ${Chalk.bold(Chalk.whiteBright('Helia Contributors'))}`)
@@ -93,26 +90,6 @@ async function main ({ env }) {
       repos.push(repo)
     }
 
-    let lastRelease
-
-    // work out the last `x.x.0` release
-    for (let page = 1; page < 10; page++) {
-      const result = await fetch(`https://api.github.com/repos/ipfs/helia/releases?page=${page}`)
-      const releases = await result.json()
-
-      lastRelease = releases
-        .filter(releaseFilter)
-        .shift()
-
-      if (lastRelease) {
-        break
-      }
-    }
-
-    if (!lastRelease) {
-      throw new Error('Could not find ipfs release in 10 pages of releases')
-    }
-
     const contributions = {}
 
     // not sure this is right - it'll fetch between the date of the last release and now, but other stuff
@@ -124,12 +101,17 @@ async function main ({ env }) {
 
       const [user, repo] = orgRepo.split('/')
 
+      const before = argv.end ?? new Date() // default to today
+      const monthOffset = 30 * 24 * 60 * 60 * 1000
+      let after = new Date()
+      after = argv.start ?? after.setTime(before.getTime() - monthOffset) // default to 30 days prior to `before`
+
       contributions[orgRepo] = await nyc.repoContributors({
         token: githubToken,
         user,
         repo,
-        before: argv.end || new Date(),
-        after: argv.start || new Date(lastRelease.published_at),
+        before,
+        after,
         commits: true
       })
 

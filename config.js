@@ -12,9 +12,11 @@ export default {
     'dependabot-preview',
     'dependabot-preview[bot]',
     'greenkeeper[bot]',
+    'dependabot[bot]',
     'greenkeeper',
     'azure-pipelines',
     'codecov',
-    'welcome'
+    'welcome',
+    'github-actions'
   ]
 }
