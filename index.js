@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
-import pkg from './package.json' assert { type: "json" };
+import pkg from './package.json' assert { type: "json" }
 import ora from 'ora'
 import debug from 'debug'
 import Chalk from 'chalk'
 import Inquirer from 'inquirer'
 import nyc from 'name-your-contributors'
 import getList from './contributions-list.js'
-import Config from './config.json' assert { type: "json" };
+import Config from './config.js'
 import prettyMs from 'pretty-ms'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
@@ -42,17 +42,17 @@ const argv = yargs(hideBin(process.argv))
   .argv
 
 async function main ({ env }) {
-  console.log(`${Chalk.cyan('⬢')} ${Chalk.bold(Chalk.whiteBright('js-IPFS Contributors'))}`)
+  console.log(`${Chalk.cyan('⬢')} ${Chalk.bold(Chalk.whiteBright('Helia Contributors'))}`)
   const spinner = ora()
 
   try {
     let githubToken
 
     if (env.IPFS_CONTRIBUTORS_GITHUB_TOKEN) {
-      console.log(Chalk.white('Welcome to the js-IPFS contributors list generator!'))
+      console.log(Chalk.white('Welcome to the Helia contributors list generator!'))
       githubToken = env.IPFS_CONTRIBUTORS_GITHUB_TOKEN
     } else {
-      console.log(Chalk.white('Welcome to the js-IPFS contributors list generator! All you need is a Github token. Learn how to get one at https://github.com/mntnr/name-your-contributors#api-limits-and-setting-up-a-github-token'))
+      console.log(Chalk.white('Welcome to the Helia contributors list generator! All you need is a Github token. Learn how to get one at https://github.com/mntnr/name-your-contributors#api-limits-and-setting-up-a-github-token'))
 
       const { token } = await Inquirer.prompt([{
         type: 'password',
@@ -93,7 +93,7 @@ async function main ({ env }) {
 
     // work out the last `x.x.0` release
     for (let page = 1; page < 10; page++) {
-      const result = await fetch(`https://api.github.com/repos/ipfs/js-ipfs/releases?page=${page}`)
+      const result = await fetch(`https://api.github.com/repos/ipfs/helia/releases?page=${page}`)
       const releases = await result.json()
 
       lastRelease = releases

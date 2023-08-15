@@ -1,4 +1,4 @@
-import config from './config.json' assert { type: 'json' }
+import config from './config.js'
 
 const isBot = ({ name, login }) => {
   return config.bots.includes(name) || config.bots.includes(login)
