@@ -14,7 +14,7 @@ Then install from source:
 
 ```sh
 # Clone the repo
-git clone https://github.com/SgtPooki/helia-contributors.git
+git clone https://github.com/ipfs-shipyard/helia-contributors.git
 cd helia-contributors
 
 # Install project dependencies
