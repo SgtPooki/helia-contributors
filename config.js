@@ -31,6 +31,32 @@ export default {
     // partner deps
     'ChainSafe/gossipsub-js'
   ],
+  // list the root npm packages that we own that we want to check for contributors
+  // merged with the list of github repos listed above and deduplicated
+  npmPackages: [
+    'helia',
+    '@helia/unixfs',
+    '@helia/json',
+    '@helia/strings',
+    '@helia/car',
+    '@helia/remote-pinning',
+    '@helia/dag-cbor',
+    '@helia/ipns',
+    '@helia/dag-json',
+    '@helia/routing-v1-http-api-server',
+    '@helia/interface',
+    '@helia/rpc-protocol',
+    '@helia/css',
+    '@helia/routing-v1-http-api-client',
+    '@helia/ipns-cli',
+    '@helia/interop',
+    '@helia/cli-utils',
+    '@helia/rpc-client',
+    '@helia/rpc-server',
+    '@helia/cli',
+    '@helia/unixfs-cli',
+    '@helia/mfs'
+  ],
   bots: [
     'dependabot',
     'dependabot-preview',

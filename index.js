@@ -11,6 +11,7 @@ import Config from './config.js'
 import prettyMs from 'pretty-ms'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
+import { getGithubRepoNamesForNpmPackages } from './utils.js'
 
 const log = debug(pkg.name)
 
@@ -65,7 +66,9 @@ async function main ({ env }) {
       githubToken = token
     }
 
-    const repos = Array.from(Config.repos)
+    console.log(Chalk.white('Getting github repo names for npm packages (and their deps that we own) listed in (config.js).npmPackages...'))
+    const reposForNpmPackages = await getGithubRepoNamesForNpmPackages(Config.npmPackages)
+    const repos = [...new Set([...Config.repos, ...reposForNpmPackages])]
 
     while (true) {
       console.log(Chalk.white('The following repos will be used:'))
