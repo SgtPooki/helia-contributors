@@ -1,7 +1,7 @@
 import config from './config.js'
 
 const isBot = ({ name, login }) => {
-  return config.bots.includes(name) || config.bots.includes(login)
+  return config.bots.includes(name) || config.bots.includes(login) || login.endsWith('[bot]') || login.includes('github-actions')
 }
 
 /**

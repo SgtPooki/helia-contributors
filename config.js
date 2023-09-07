@@ -58,6 +58,7 @@ export default {
     '@helia/mfs'
   ],
   bots: [
+    // we don't list web3-bot because seeing it's contributions is useful
     'dependabot',
     'dependabot-preview',
     'dependabot-preview[bot]',
@@ -67,6 +68,9 @@ export default {
     'azure-pipelines',
     'codecov',
     'welcome',
-    'github-actions'
+    'github-actions',
+    'semantic-release-bot',
+    'github-actions%5Bbot%5D',
+    'codecov-commenter'
   ]
 }
