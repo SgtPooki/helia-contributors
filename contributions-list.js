@@ -4,6 +4,29 @@ const isBot = ({ name, login }) => {
   return config.bots.includes(name) || config.bots.includes(login)
 }
 
+/**
+ * weight priorities: commits, PRs, issues, comments
+ *
+ * @param {*} person - a single person object
+ *
+ * @returns {number} - the weight of the person's contributions
+ */
+function getPersonContributionWeight (person) {
+  return person.counts.commitAuthors * 5 + person.counts.prCreators * 4 + person.counts.issueCreators * 3 + person.counts.prCommentators * 2 + person.counts.issueCommentators
+}
+
+/**
+ * Sort people using a multi-factor weighted sort
+ * weight priorities: commits, PRs, issues, comments
+ *
+ * @param {*} peeps - people to sort
+ */
+function getSortedPeople (peeps) {
+  return peeps.sort((a, b) => {
+    return getPersonContributionWeight(b) - getPersonContributionWeight(a)
+  })
+}
+
 export default (repoContributions) => {
   const people = {}
 
@@ -39,7 +62,7 @@ export default (repoContributions) => {
     return ''
   }
 
-  const sortedPeople = Object.values(people).sort((a, b) => a.login.toLowerCase().localeCompare(b.login.toLowerCase()))
+  const sortedPeople = getSortedPeople(Object.values(people))
 
   return sortedPeople
     .filter(p => !isBot(p))
