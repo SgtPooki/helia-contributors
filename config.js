@@ -6,6 +6,7 @@ export default {
     'ipfs/helia-cli',
     'ipfs/helia-dag-cbor',
     'ipfs/helia-dag-json',
+    'ipfs/helia-docker',
     'ipfs/helia-ipns',
     'ipfs/helia-json',
     'ipfs/helia-mfs',

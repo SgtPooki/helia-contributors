@@ -1,4 +1,6 @@
-// import getDeps from 'get-dependencies'
+import debug from 'debug'
+
+export const log = debug('helia-contributors')
 
 const getNpmRegistryUrl = (pkgName) => {
   return `https://registry.npmjs.org/${pkgName}`
@@ -6,7 +8,8 @@ const getNpmRegistryUrl = (pkgName) => {
 
 const ourOrgs = [
   'ipfs',
-  'ipfs-shipyard'
+  'ipfs-shipyard',
+  // 'ipfs-examples'
 ]
 
 function githubRepoFromNpmRepositoryUrl (npmRepositoryUrl) {
@@ -38,6 +41,9 @@ function getLatestVersionFromVersionTime (versionTime) {
   return sortedKeys[sortedKeys.length - 1]
 }
 
+// a map of github orgs to npm package names that we're ignoring
+const ignoredDeps = new Map()
+
 async function getOwnedDependencies (dependenciesArray) {
   const ownedDependencies = []
   for (const dependency of dependenciesArray) {
@@ -45,9 +51,13 @@ async function getOwnedDependencies (dependenciesArray) {
       const depDetails = await gitHubDetailsFromNpmPackageName(dependency, true)
       if (ourOrgs.includes(depDetails.org)) {
         ownedDependencies.push(depDetails)
+      } else {
+        const existingIgnoredDeps = ignoredDeps.get(depDetails.org) || new Set()
+        existingIgnoredDeps.add(depDetails.npmPackageName)
+        ignoredDeps.set(depDetails.org, existingIgnoredDeps)
       }
     } catch (e) {
-      // console.error(e)
+      console.error(e)
     }
   }
   return ownedDependencies
@@ -116,9 +126,10 @@ export async function getGithubRepoNamesForNpmPackages (npmPackages) {
     }
   }
 
-  console.log(githubRepoNames)
+  // output all the npm packages we're not including contributors for and their
+  for (const [org, packages] of ignoredDeps.entries()) {
+    log(`Skipped packages from org '${org}': ${[...packages].join(', ')}`)
+  }
+
   return [...githubRepoNames]
 }
-
-// await getGithubRepoNamesForNpmPackages()
-

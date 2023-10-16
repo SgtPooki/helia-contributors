@@ -63,13 +63,39 @@ export default (repoContributions) => {
   }
 
   const sortedPeople = getSortedPeople(Object.values(people))
+  const nonBotPeople = sortedPeople.filter(p => !isBot(p))
 
-  return sortedPeople
-    .filter(p => !isBot(p))
+  // separate people who may only have comments from people who have opened PRs or added commits
+  const {commenters, committers} = nonBotPeople.reduce((acc, person) => {
+    if (person.counts.commitAuthors || person.counts.prCreators) {
+      acc.committers.push(person)
+    } else {
+      // person.counts.prCommentators || person.counts.issueCommentators || person.counts.reviewers || person.counts.issueCreators
+      acc.commenters.push(person)
+    }
+    return acc
+  }, { commenters: [], committers: [] })
+
+  const commiterLines = committers
     .reduce((lines, p) => {
       const counts = getCounts(p)
       if (!counts) return lines
       return lines.concat(`* [@${p.login}](${p.url})${counts}`)
     }, [])
     .join('\n')
+
+  const commenterLines = commenters
+    .reduce((lines, p) => {
+      const counts = getCounts(p)
+      if (!counts) return lines
+      return lines.concat(`* [@${p.login}](${p.url})${counts}`)
+    }, [])
+    .join('\n')
+
+  return `## Committers
+${commiterLines}
+
+## Commenters
+${commenterLines}
+`
 }
